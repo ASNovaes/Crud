@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style/normalize.css">
+    <link rel="stylesheet" href="style/main.css">
+
+    <title>Projeto para o GIT HUB</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="dialog d-none">
+            <header class="dialog__header">
+                <nav class="dialog__nav">
+                    <button class="btn btn-close" data-dialog="close"><img src="img/btn-close.svg"></button>
+                </nav>
+            </header>
+            <div class="dialog__content">
+                <p id="dialog_message"></p>
+
+                <div>
+                    <button class="btn btn-confirm" data-dialog="confirm">Sim</button>
+                    <button class="btn btn-cancel" data-dialog="cancel">Não</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dialog-background d-none" data-dialog="close"></div>
+
+
+        <header class="header-page">
+            <nav class="nav-page"></nav>
+        </header>
+
+
+        <div class="container-form-search">
+            <form class="form-search">
+                <button class="btn btn-search" id="btn_search"><img src="img/search.svg" title="Pesquisar"></button>
+                <input type="search" class="form-search__bar-search" id="bar_search">
+                <p class="txtNotFound d-none">Não Encontrado!</p>
+
+            </form>
+            <div class="counters">
+                <div class="container-form-search__user"><img src="img/user.svg"><span id="countRegister"></span></div>
+            </div>
+        </div>
+
+        <section class="content">
+            <table class="table ">
+                <thead>
+                    <th></th>
+                    <th>Nome </th>
+                    <th>Data de Nascimento</th>
+                    <th>Email</th>
+                    <th>Contato</th>
+                    <th>Ações</th>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </section>
+
+        <div class="pagination"></div>
+
+        <form class="form-submit" id="form">
+            <p>
+                <input type="text" placeholder="Fulano da Silva" name="name" data-input="field" required>
+                <i class="fa fa-user-o" style="font-size:20x"></i>
+            </p>
+            <p>
+                <input type="date" placeholder="ano de nascimento" name="dateofbirth" min="1900-10-10" data-input="field" required>
+            </p>
+            <p>
+                <input type="email" placeholder="email@exemplo.com" name="email" data-input="field" required>
+                <i class="fa fa-envelope-o" style="font-size:20px"></i>
+            </p>
+            <p>
+                <input type="tel" placeholder="(xx)xxxxx-xxxx" name="tel" data-input="field" required style="margin: 0px;">
+                <i class="fa fa-mobile-phone" style="font-size:24px"></i>
+            </p>
+            <button class="btn btn-add"><img src="img/icon-add.svg" title="Adicionar usuário"></button>
+
+        </form>
+
+        <div class="section-validate">
+            <ul class="txtValidate"></ul>
+            <button class="btn btn-trash "><img src="img/trash.svg" alt="Apagar tudo! " title="Apagar Tudo!"></button>
+        </div>
+    </div>
+</body>
+
+<script src="js/main.js"></script>
+
+</html>

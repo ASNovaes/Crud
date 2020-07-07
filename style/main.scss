@@ -1,0 +1,363 @@
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                
+                $primary: #7d57c9;
+                $secondary: #5e27cdad;
+                $tertiary: #4c4c4c;
+                $body:#ddd9ce;
+                $danger: #b62222fd;
+                $success: rgb(27, 109, 27);
+                $dark: #000;
+                $light: #fff;
+                //
+                body {
+                    overflow: hidden;
+                    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                    position: relative;
+                }
+                
+                .d-none {
+                    display: none;
+                }
+                
+                .btn-active {
+                    background: $tertiary;
+                }
+                
+                img {
+                    height: 100%;
+                    width: 100%;
+                }
+                
+                .btn {
+                    background: transparent;
+                    border-radius: 3px;
+                    border: 0;
+                    color: $tertiary;
+                    cursor: pointer;
+                    font-weight: 700;
+                    outline: 0;
+                    padding: 5px;
+                }
+                
+                .container {
+                    background: $secondary;
+                    display: flex;
+                    flex-direction: column;
+                    height: 100vh;
+                    position: relative;
+                    width: 100vw;
+                }
+                
+                .header-page {
+                    background: $tertiary;
+                    height: 50px;
+                    width: 100%;
+                }
+                
+                .container-form-search {
+                    display: flex;
+                    width: 90vw;
+                    margin: 10px auto;
+                    margin-top: 30px;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .container-form-search__user {
+                    width: 50px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    position: relative;
+                }
+                
+                .container-form-search__user span {
+                    align-items: center;
+                    background: $secondary;
+                    border-radius: 2px;
+                    color: $light;
+                    display: flex;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 0.7em;
+                    font-weight: 900;
+                    height: auto;
+                    padding: 3px;
+                    position: absolute;
+                    right: 5px;
+                    top: 35px;
+                    width: auto;
+                }
+                
+                .btn-search {
+                    background: $primary;
+                    border-radius: 3px 0px 0px 3px;
+                    height: 35px;
+                    width: 70px;
+                }
+                
+                .form-search {
+                    display: flex;
+                    height: 35px;
+                    width: auto;
+                }
+                
+                .txtNotFound {
+                    align-self: center;
+                    background: $danger;
+                    border-radius: 15px;
+                    color: $light;
+                    cursor: pointer;
+                    font-size: 0.8em;
+                    font-weight: bolder;
+                    left: 5px;
+                    padding: 5px;
+                    position: relative;
+                    white-space: nowrap;
+                }
+                
+                .form-search__bar-search {
+                    border: 1px solid $primary;
+                    border-radius: 0px 3px 3px 0px;
+                    outline: none;
+                    text-indent: 5px;
+                    width: 300px;
+                }
+                
+                .counters {
+                    display: flex;
+                }
+                
+                .content {
+                    background: $body;
+                    border-radius: 0px 0px 3px 3px;
+                    border-top: 5px solid $tertiary;
+                    margin: 0px auto;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    height: 50vh;
+                    width: 90vw;
+                }
+                
+                .table {
+                    border-collapse: collapse;
+                    font-size: 0.8em;
+                    margin: 25px auto;
+                    table-layout: fixed;
+                    width: 90%;
+                }
+                
+                .table th {
+                    background: $primary;
+                    color: $light;
+                    cursor: pointer;
+                    font-size: 15px;
+                    height: 40px;
+                    padding: 5px;
+                    width: 50px;
+                }
+                
+                .table th:nth-child(1) {
+                    width: 10px;
+                }
+                
+                .table td {
+                    border-bottom: 1px solid $primary;
+                    color: $tertiary;
+                    font-size: 15px;
+                    padding: 5px;
+                    text-align: center;
+                }
+                
+                .form-submit {
+                    align-items: center;
+                    background: $body;
+                    border-radius: 0px 0px 3px 3px;
+                    border-top: 5px solid $tertiary;
+                    display: flex;
+                    height: 10vh;
+                    justify-content: center;
+                    margin: 0px auto;
+                    padding: 20px;
+                    width: 90vw;
+                }
+                
+                .form-submit p {
+                    display: flex;
+                    position: relative;
+                    width: 25%;
+                }
+                
+                .form-submit p>input {
+                    border: 1px solid $primary;
+                    border-radius: 0px;
+                    height: 35px;
+                    margin-right: 1px;
+                    outline: none;
+                    text-indent: 5px;
+                    width: 100%;
+                }
+                
+                .form-submit p i {
+                    margin: 0;
+                    position: absolute;
+                    right: 7px;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                }
+                
+                .btn-add {
+                    background: $primary;
+                    border-radius: 0px 3px 3px 0px;
+                    color: $light;
+                    height: 35px;
+                    width: 70px;
+                }
+                
+                .btn-edit,
+                .btn-delete {
+                    width: 35px;
+                }
+                
+                .btn-trash {
+                    position: absolute;
+                    right: 0px;
+                    top: 20px;
+                    transition: 0.5s all ease;
+                    width: 50px;
+                }
+                
+                .btn-trash:hover {
+                    transform: translateY(-3px);
+                }
+                
+                .pagination {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin: 5px auto 10px;
+                    width: 90vw;
+                }
+                
+                .pagination a,
+                .pagination span {
+                    align-items: center;
+                    border: 1px solid $body;
+                    color: $light;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    height: 25px;
+                    text-decoration: none;
+                    width: 25px;
+                }
+                
+                .pagination a:nth-child(2) {
+                    background: $primary;
+                    border-radius: 2px 0px 0px 2px;
+                }
+                
+                .pagination a:last-child {
+                    border-radius: 0px 2px 2px 0px;
+                    background: $primary;
+                }
+                
+                .pagination a:hover {
+                    background: $tertiary;
+                }
+                
+                .pagination span {
+                    border: none;
+                    margin-right: 20px;
+                    width: auto;
+                }
+                
+                .pagination a.active {
+                    background-color: $body;
+                    color: $dark;
+                }
+                
+                .section-validate {
+                    margin: 0 auto;
+                    position: relative;
+                    width: 90vw;
+                }
+                
+                .section-validate ul {
+                    padding: 5px 0px;
+                    list-style-type: none;
+                }
+                
+                .section-validate li {
+                    color: $danger;
+                    font-size: 0.9em;
+                    padding: 0px;
+                }
+                
+                // dialog
+                .dialog {
+                    height: 100px;
+                    background: $body;
+                    border-radius: 3px;
+                    border: 2px solid $tertiary;
+                    position: absolute;
+                    left: 50%;
+                    margin-right: -50%;
+                    position: absolute;
+                    top: 30%;
+                    transform: translate(-50%, -50%);
+                    min-width: 20vw;
+                    z-index: 900;
+                }
+                
+                .dialog__header {
+                    background: $tertiary;
+                    width: 100%;
+                }
+                
+                .dialog__nav {
+                    align-items: center;
+                    background: $tertiary;
+                    display: flex;
+                    height: 25px;
+                    justify-content: flex-end;
+                }
+                
+                .btn-close {
+                    width: 20px;
+                }
+                
+                .dialog__content {
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    height: calc(100% - 25px);
+                    justify-content: center;
+                }
+                
+                .dialog__content p {
+                    line-height: 2em;
+                }
+                
+                .btn-confirm {
+                    background: $success;
+                    color: $light;
+                    font-size: 0.9em;
+                    width: 60px;
+                }
+                
+                .btn-cancel {
+                    background: $danger;
+                    color: $light;
+                    font-size: 0.9em;
+                    width: 60px;
+                }
+                
+                .dialog-background {
+                    height: 100vh;
+                    position: absolute;
+                    width: 100vw;
+                    z-index: 1;
+                }
