@@ -414,10 +414,10 @@ const updateView = () => {
     loadPagination(Math.ceil(recordObjects.length / recordPerPage));
 }
 
+
 loadRecordFromStorage();
 
 const btn_add = document.querySelector('.btn-add');
-const btn_edit = document.querySelectorAll('.btn-edit');
 const btn_search = document.getElementById('btn_search');
 
 document.addEventListener('click', getIdButtonDeleteClicked);
