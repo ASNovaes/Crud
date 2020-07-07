@@ -229,6 +229,10 @@ img {
   width: 100%;
 }
 
+.form-submit p > input[type=text] {
+  border-radius: 3px 0px 0px 3px;
+}
+
 .form-submit p i {
   margin: 0;
   position: absolute;
