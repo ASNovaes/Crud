@@ -36,14 +36,12 @@ const addRecord = () => {
     }
 }
 
-
-const addRecordStorage = (recordObjects) => {
+const addRecordStorage = recordObjects => {
 
     localStorage.setItem('recordObjects', JSON.stringify(recordObjects));
     updateView();
     updatePageNumber(pageNumber);
 }
-
 
 const addEditedRecordStorage = (record) => {
 
@@ -54,7 +52,6 @@ const addEditedRecordStorage = (record) => {
     modeEdit = false;
     btn_add.children[0].src = "img/icon-add.svg";
 }
-
 
 const loadRecordFromStorage = () => {
     let str = localStorage.getItem('recordObjects');
@@ -68,14 +65,13 @@ const loadRecordFromStorage = () => {
     updatePageNumber(pageNumber);
 }
 
-
-const templateRecord = (records) => {
+const templateRecord = records => {
     const tbody = document.getElementById('tbody');
 
     tbody.innerHTML = '';
     records.forEach((record, i) => {
 
-    const {cod, name, dateofbirth, email, tel} = record;
+        const { cod, name, dateofbirth, email, tel } = record;
 
         tbody.innerHTML += `
             <tr>
@@ -95,8 +91,7 @@ const templateRecord = (records) => {
     form_addRecord['name'].focus();
 }
 
-
-const editRecord = (e) => {
+const editRecord = e => {
     const button = event.target.closest('button');
 
     if (!button) {
@@ -124,14 +119,12 @@ const editRecord = (e) => {
     }
 }
 
-
 const messageNumberRegister = () => {
     let numberRegisters = recordObjects.length;
     document.getElementById('countRegister').innerHTML = numberRegisters;
 }
 
-
-const loadPagination = (numberPages) => {
+const loadPagination = numberPages => {
 
     pagination.innerHTML = `
     <span class="countPage">Página ${pageNumber} de ${numberPages} :</span>
@@ -140,7 +133,7 @@ const loadPagination = (numberPages) => {
     `
     let btnNext = document.querySelector('.pagination__btn-next');
 
-    new Array(numberPages).fill('').map((page, i) => {
+    new Array(numberPages).fill('').map((_, i) => {
         const btnPagination = document.createElement('a');
         let numberPage = document.createTextNode = i + 1;
         btnPagination.innerHTML = numberPage;
@@ -150,7 +143,6 @@ const loadPagination = (numberPages) => {
 
     paginationController();
 }
-
 
 const paginationController = () => {
 
@@ -193,8 +185,7 @@ const paginationController = () => {
     });
 }
 
-
-const updatePageNumber = (pageNumber) => {
+const updatePageNumber = pageNumber => {
 
     const pageCounter = document.querySelector('.countPage');
     let end = pageNumber * recordPerPage;
@@ -207,11 +198,10 @@ const updatePageNumber = (pageNumber) => {
     paintCurrentPage(pageNumber);
 }
 
-
-const paintCurrentPage = (btnPos) => {
+const paintCurrentPage = btnPos => {
 
     const pagers = [...document.querySelectorAll("[data-page]")]
-    if (pagers.length == 0) {
+    if (pagers.length === 0) {
         return;
     }
 
@@ -219,18 +209,17 @@ const paintCurrentPage = (btnPos) => {
     pagers[btnPos - 1].classList.add('btn-active');
 }
 
-
-const searchRecords = (e) => {
-    const bar_search = document.getElementById('bar_search');
+const searchRecords = e => {
     e.preventDefault();
-
-    if (bar_search.value === '') {
+    const bar_search = document.getElementById('bar_search');
+    
+    if (!bar_search.value) {
         loadRecordFromStorage();
         document.querySelector('.txtNotFound').classList.add('d-none');
 
     } else {
 
-        let search = recordObjects.map((record, i) => {
+        let search = recordObjects.map((record) => {
             let regex = new RegExp('' + bar_search.value + '', 'g' + 'i');
 
             if (record.name.toString().match(regex) == null &&
@@ -238,33 +227,20 @@ const searchRecords = (e) => {
                 record.email.toString().match(regex) == null &&
                 record.tel.toString().match(regex) == null
             ) {
-                return false;
+                document.querySelector('.txtNotFound').classList.remove('d-none');
 
             } else {
-                return i;
+                document.querySelector('.txtNotFound').classList.add('d-none');
+                return record;  
             }
         });
 
-        let filterRecords = search.filter(el => el !== false);
-
-        if (filterRecords.length > 5) {
-            document.querySelector('.content').style = 'overflow-y: auto';
-        }
-
-        if (filterRecords == '') {
-            document.querySelector('.txtNotFound').classList.remove('d-none');
-
-        } else {
-            let records = filterRecords.map((el, i) => recordObjects[filterRecords[i]]);
-
-            templateRecord(records);
-            document.querySelector('.txtNotFound').classList.add('d-none');
-        }
+        let records = search.filter(el => el !== undefined);
+        records.length !== 0 ? templateRecord(records) : true;
     }
 }
 
-
-const validateFieldsRecord = (e) => {
+const validateFieldsRecord = e => {
     e.preventDefault();
 
     document.querySelector('.txtValidate').innerHTML = '';
@@ -276,7 +252,7 @@ const validateFieldsRecord = (e) => {
 
     let dateMin = new Date(form_addRecord['dateofbirth'].value) < new Date('01/01/1900');
     let dateMax = new Date(form_addRecord['dateofbirth'].value) > new Date();
-    
+
     let testName = !validateName.test(form_addRecord['name'].value);
     let testPhone = !validatePhone.test(form_addRecord['tel'].value);
     let testEmail = !validateEmail.test(form_addRecord['email'].value);
@@ -305,55 +281,51 @@ const validateFieldsRecord = (e) => {
     validateFields == '' ? addRecord() : true;
 }
 
+const controllerDialog = message => {
 
-const controllerDialog = (dell, id, message) => {
-
-    const dialog = document.querySelector('.dialog'),
-        dialog_message = document.querySelector('#dialog_message'),
+    const dialog_message = document.querySelector('#dialog_message'),
         btn_close = document.querySelector('.btn-close'),
         btn_confirm = document.querySelector('.btn-confirm'),
         btn_cancel = document.querySelector('.btn-cancel'),
-        dialog_background = document.querySelector('.dialog-background');
+        overlay = document.querySelector('.dialog-background');
 
-    let actionDialog;
+    OpenOrCloseDialogAndOverlay('remove');
 
-    dialog_background.classList.remove('d-none');
-    dialog.classList.remove('d-none');
     dialog_message.innerHTML = ` ${message} `;
 
-    [btn_close, btn_confirm, btn_cancel, dialog_background].forEach((btn, i) => {
+    return new Promise((resolve, reject) => {
 
-        btn.addEventListener('click', (e) => {
+        [btn_close, btn_confirm, btn_cancel, overlay].forEach((btn) => {
 
-            if (e.target.closest('button')) {
-                actionDialog = e.target.closest('button').dataset.dialog;
+            btn.addEventListener('click', (e) => {
 
-            } else {
-                actionDialog = e.target.dataset.dialog;
-            }
+                let actionDialog;
 
-            if (actionDialog === 'cancel' || actionDialog === 'close') {
-                dialog_background.classList.add('d-none');
-                dialog.classList.add('d-none');
-                const checkbox = document.querySelectorAll('[type="checkbox"]');
-                [...checkbox].forEach(record => record.checked = false);
-                id = null;
+                e.target.closest('button') ? actionDialog = e.target.closest('button').dataset.dialog :
+                    actionDialog = e.target.dataset.dialog;
 
-            } else if (actionDialog === 'confirm') {
-                dialog_background.classList.add('d-none');
-                dialog.classList.add('d-none');
-                dell(id);
-                id = null;
-            }
+                if (actionDialog === 'cancel' || actionDialog === 'close') {
+                    OpenOrCloseDialogAndOverlay('add');
+                    reject(false);
+
+                } else if (actionDialog === 'confirm') {
+                    OpenOrCloseDialogAndOverlay('add');
+                    resolve(true);
+                }
+            });
         });
     });
 }
 
+const OpenOrCloseDialogAndOverlay = method => {
+    const dialog = document.querySelector('.dialog')
+    const overlay = document.querySelector('.dialog-background');
 
-const btn_trash = document.querySelector('.btn-trash');
-const btn_delete = document.querySelectorAll('.btn-delete');
+    dialog.classList[method]('d-none');
+    overlay.classList[method]('d-none');
+}
 
-btn_trash.addEventListener('click', (e) => {
+const deleteAllRecordsOrRecordsSelected = e => {
     let recordChecked = [];
 
     let checkbox = document.querySelectorAll('[type="checkbox"]');
@@ -363,20 +335,35 @@ btn_trash.addEventListener('click', (e) => {
         let message = 'Excluir todos os registros selecionados?'
         recordChecked.forEach((record) => {
             let id = parseInt(record.dataset.id);
-            controllerDialog(deleteRecord, id, message);
+
+            deleteRecord(id, message);
         });
 
     } else {
         [...checkbox].forEach(record => record.checked = true);
-        let message = 'Excluir todos os registros ?'
-        id = null;
-        controllerDialog(deleteAllRecords, id, message);
+        let message = 'Excluir todos os registros ?';
+        deleteAllRecords(message);
     }
-});
+}
 
+const deleteAllRecords = message => {
 
-const getIdButtonDeleteClicked = (e) => {
-    let button = event.target.closest('button');
+    controllerDialog(message)
+        .then(confirm => {
+            if (confirm) {
+                localStorage.removeItem('recordObjects');
+                document.location.reload(true);
+            }
+        })
+        .catch(() => {
+            const checkbox = document.querySelectorAll('[type="checkbox"]');
+            [...checkbox].forEach(record => record.checked = false);
+            return;
+        });
+}
+
+const getIdButtonDeleteClicked = e => {
+    let button = e.target.closest('button');
 
     if (!button) {
         return;
@@ -384,29 +371,26 @@ const getIdButtonDeleteClicked = (e) => {
 
     if (button.dataset.type == "btn-delete ") {
         let id = parseInt(button.dataset.id);
-        let message = 'Excluir este registro ?'
-        controllerDialog(deleteRecord, id, message);
+        let message = 'Excluir este registro ?';
+        deleteRecord(id, message);
     }
 }
 
+const deleteRecord = (id, message) => {
 
-const deleteRecord = (id) => {
+    controllerDialog(message)
+        .then(confirm => {
+            if (confirm) {
+                recordObjects = recordObjects.filter(record => record.cod !== id);
 
-    recordObjects = recordObjects.filter(record => record.cod !== id);
+                if (Math.ceil(recordObjects.length / recordPerPage) < pageNumber) {
+                    pageNumber = Math.ceil(recordObjects.length / recordPerPage);
+                }
 
-    if (Math.ceil(recordObjects.length / recordPerPage) < pageNumber) {
-        pageNumber = Math.ceil(recordObjects.length / recordPerPage);
-    }
-
-    addRecordStorage(recordObjects);
+                addRecordStorage(recordObjects);
+            }
+        }).catch(() => { return });
 }
-
-
-const deleteAllRecords = () => {
-    localStorage.removeItem('recordObjects');
-    document.location.reload(true);
-}
-
 
 const updateView = () => {
     templateRecord(recordObjects);
@@ -414,12 +398,13 @@ const updateView = () => {
     loadPagination(Math.ceil(recordObjects.length / recordPerPage));
 }
 
-
 loadRecordFromStorage();
 
 const btn_add = document.querySelector('.btn-add');
 const btn_search = document.getElementById('btn_search');
+const btn_trash = document.querySelector('.btn-trash');
 
+btn_trash.addEventListener('click', deleteAllRecordsOrRecordsSelected);
 document.addEventListener('click', getIdButtonDeleteClicked);
 document.addEventListener('click', editRecord);
 btn_add.addEventListener('click', validateFieldsRecord);
