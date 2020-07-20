@@ -92,7 +92,7 @@ const templateRecord = records => {
 }
 
 const editRecord = e => {
-    const button = event.target.closest('button');
+    const button = e.target.closest('button');
 
     if (!button) {
         return false;
@@ -149,36 +149,25 @@ const paginationController = () => {
     const btnPageNumber = document.querySelectorAll("[data-page]"),
         btnControllPagination = document.querySelectorAll("[data-type]");
 
-    [...btnPageNumber, ...btnControllPagination].forEach((btn, i) => {
-        btn.addEventListener('click', (e) => {
+    [...btnPageNumber, ...btnControllPagination].forEach(btn => {
+        btn.addEventListener('click', e => {
 
             document.querySelector('.content').style = 'overflow-y: hidden';
 
-            if (e.target.tagName == 'SPAN') {
-                return false;
+            const errors = {
+                pageNumberEqualZeroOrEqualOne: pageNumber === 0 || pageNumber === 1,
+                pageNumberEqualPageCurrent: pageNumber === Math.ceil(recordObjects.length / recordPerPage)
             }
 
-            if (e.target.dataset.type == 'previous') {
+            if (e.target.dataset.type == 'previous')
+                !errors.pageNumberEqualZeroOrEqualOne ? pageNumber -= 1 : true;
 
-                if (pageNumber == 0 || pageNumber == 1) {
-                    return false;
+            else if (e.target.dataset.type == 'next')
+                !errors.pageNumberEqualPageCurrent ? pageNumber += 1 : true;
 
-                } else {
-                    pageNumber -= 1;
-                }
-
-            } else if (e.target.dataset.type == 'next') {
-
-                if (pageNumber == Math.ceil(recordObjects.length / recordPerPage)) {
-                    return false;
-
-                } else {
-                    pageNumber += 1;
-                }
-
-            } else {
+            else
                 pageNumber = parseInt(e.target.innerHTML);
-            }
+
 
             updatePageNumber(pageNumber);
         });
@@ -205,37 +194,36 @@ const paintCurrentPage = btnPos => {
         return;
     }
 
-    [...pagination.children].forEach((btn, i) => btn.classList.remove('btn-active'));
+    [...pagination.children].forEach(btn => btn.classList.remove('btn-active'));
     pagers[btnPos - 1].classList.add('btn-active');
 }
 
 const searchRecords = e => {
     e.preventDefault();
     const bar_search = document.getElementById('bar_search');
-    
+
     if (!bar_search.value) {
         loadRecordFromStorage();
         document.querySelector('.txtNotFound').classList.add('d-none');
 
     } else {
-
-        let search = recordObjects.map((record) => {
+        const searchRecordInFields = (record) => {
             let regex = new RegExp('' + bar_search.value + '', 'g' + 'i');
 
-            if (record.name.toString().match(regex) == null &&
-                record.dateofbirth.toString().match(regex) == null &&
-                record.email.toString().match(regex) == null &&
-                record.tel.toString().match(regex) == null
-            ) {
-                document.querySelector('.txtNotFound').classList.remove('d-none');
+            return ['name', 'dateofbirth', 'email', 'tel'].map((el) => {
+                return record[el].toString().match(regex) === null ? false : true
+            });
+        }
 
-            } else {
-                document.querySelector('.txtNotFound').classList.add('d-none');
-                return record;  
-            }
-        });
+        let records = recordObjects.filter(record => 
+            searchRecordInFields(record).includes(true) ?
+                record : false);
 
-        let records = search.filter(el => el !== undefined);
+        if (records.length === 0)
+            document.querySelector('.txtNotFound').classList.remove('d-none')
+        else
+            document.querySelector('.txtNotFound').classList.add('d-none')
+
         records.length !== 0 ? templateRecord(records) : true;
     }
 }
@@ -256,7 +244,7 @@ const validateFieldsRecord = e => {
     let testName = !validateName.test(form_addRecord['name'].value);
     let testPhone = !validatePhone.test(form_addRecord['tel'].value);
     let testEmail = !validateEmail.test(form_addRecord['email'].value);
-    let testBirthdayDate = dateMin || dateMax || form_addRecord['dateofbirth'].value == '';
+    let testBirthdayDate = dateMin || dateMax || form_addRecord['dateofbirth'].value === '';
 
     let errorsFields = [testName, testBirthdayDate, testEmail, testPhone];
     let fieldsNamePortuguese = ['nome', 'data de aniversário', 'email', 'contato'];
@@ -264,7 +252,6 @@ const validateFieldsRecord = e => {
     let validateFields = errorsFields.filter((err, i) => {
 
         if (err) {
-
             form_addRecord[fields[i]].style.border = '1px solid #b62222fd';
             document.querySelector('.txtValidate').innerHTML += `
                 <li>Favor preencher corretamente o campo ${fieldsNamePortuguese[i]}</li>
@@ -272,13 +259,11 @@ const validateFieldsRecord = e => {
             return 'error';
 
         } else {
-
             form_addRecord[fields[i]].style.border = '1px solid #7a48df';
-            return false;
         }
     });
 
-    validateFields == '' ? addRecord() : true;
+    validateFields.length === 0 ? addRecord() : true;
 }
 
 const controllerDialog = message => {
