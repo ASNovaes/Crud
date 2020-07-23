@@ -168,7 +168,6 @@ const paginationController = () => {
             else
                 pageNumber = parseInt(e.target.innerHTML);
 
-
             updatePageNumber(pageNumber);
         });
     });
